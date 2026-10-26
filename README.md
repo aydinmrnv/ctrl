@@ -1,4 +1,4 @@
-# Carry
+# Ctrl
 
 One clipboard across your Mac, PC, and iPhone. You can also send work to another device: copy on one machine and paste on another, open a file on a different computer, or drag a window off your Mac and have the same app open on your PC, on the same page.
 
@@ -8,15 +8,15 @@ One clipboard across your Mac, PC, and iPhone. You can also send work to another
 
 ## Why another clipboard app
 
-Today's shared clipboards fall into two groups. Some are tied to one platform, like Universal Clipboard. The others are cross-platform but rough: they sync plain text through somebody's cloud and look like a settings panel. Carry aims to feel native on every platform it supports and to move more than text.
+Today's shared clipboards fall into two groups. Some are tied to one platform, like Universal Clipboard. The others are cross-platform but rough: they sync plain text through somebody's cloud and look like a settings panel. Ctrl aims to feel native on every platform it supports and to move more than text.
 
-### What sets Carry apart
+### What sets Ctrl apart
 
 | | |
 |---|---|
 | **Window Handoff** *(optional)* | Drag a window past the edge of your Mac's screen while it's screen-shared to your PC (or onto a configured "handoff edge"). The same app opens on the other machine, in the same state: same browser tab and URL, same document, same folder. It only works when the app is installed on both machines, and it is off by default. |
 | **Open on…** | Send a file, URL, or folder to another device and have it **open** there, not just arrive. Right-click → *Open on Windows PC*. |
-| **Lazy payloads** | Copying a 4 GB video doesn't send 4 GB. Carry announces *what* was copied and only moves the bytes when you actually paste, then streams them over the LAN at full speed. Small items are sent eagerly so paste stays instant. |
+| **Lazy payloads** | Copying a 4 GB video doesn't send 4 GB. Ctrl announces *what* was copied and only moves the bytes when you actually paste, then streams them over the LAN at full speed. Small items are sent eagerly so paste stays instant. |
 | **Every type, faithfully** | Rich text, HTML, images, files, folders, colors, and URLs keep their original formats. Each side gets the best representation its platform understands (RTF ↔ HTML, TIFF ↔ PNG, file promises ↔ virtual files). |
 | **Respects secrets** | Items that password managers mark as concealed (`org.nspasteboard.ConcealedType`, Windows `ExcludeClipboardContentFromMonitorProcessing`) never leave the device and never enter history. |
 | **Local-first, end-to-end encrypted** | Devices find each other on the LAN and talk directly. There are no accounts and no server that can read your clipboard. An optional relay carries only ciphertext. |
@@ -28,7 +28,7 @@ Today's shared clipboards fall into two groups. Some are tied to one platform, l
 |---|---|---|
 | macOS 15+ | Menu bar app (SwiftUI + AppKit) | Full feature set. |
 | Windows 11 | Notification-area app (WinUI 3) | Full feature set, Fluent / Mica styling. |
-| iOS 18+ | App + Share Extension + Widget + Shortcuts | iOS doesn't allow background clipboard access, so sync is user-initiated: paste into Carry, the share sheet, a Control Center control, or a Shortcut. Receiving works in the background through a notification with a copy action. |
+| iOS 18+ | App + Share Extension + Widget + Shortcuts | iOS doesn't allow background clipboard access, so sync is user-initiated: paste into Ctrl, the share sheet, a Control Center control, or a Shortcut. Receiving works in the background through a notification with a copy action. |
 
 ## Design principles
 
@@ -46,14 +46,14 @@ Today's shared clipboards fall into two groups. Some are tied to one platform, l
 └──────────┬───────────┘   └──────────┬───────────┘   └──────────┬───────────┘
            │ UniFFI (Swift)            │ UniFFI (C#)               │ UniFFI (Swift)
 ┌──────────┴───────────────────────────┴───────────────────────────┴───────────┐
-│                               carry-core (Rust)                               │
+│                               ctrl-core (Rust)                               │
 │  discovery (mDNS) · pairing (SPAKE2) · Noise sessions · clip model            │
 │  lazy transfer (QUIC streams) · history store (SQLite) · intents (Open on…)   │
 └───────────────────────────────────────────────────────────────────────────────┘
 ```
 
 - **`core/`**: Rust crate that holds all networking, crypto, the data model, and persistence. One implementation, tested once.
-- **`apple/`**: Xcode project (XcodeGen) containing the macOS app, the iOS app, and a shared `CarryKit` Swift package.
+- **`apple/`**: Xcode project (XcodeGen) containing the macOS app, the iOS app, and a shared `CtrlKit` Swift package.
 - **`windows/`**: WinUI 3 solution.
 
 Platform shells handle only the system integration the core can't: pasteboard access, UI, window inspection, and launching apps.
