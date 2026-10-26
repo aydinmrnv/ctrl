@@ -1128,8 +1128,10 @@ impl Inner {
             return Err(CtrlError::Protocol("payload is smaller than the partial download".into()));
         }
 
-        let mut file = tokio::fs::OpenOptions::new().create(true).append(true).open(&part).await?;
+        // Not append mode: Windows refuses set_len on an append-only handle.
+        let mut file = tokio::fs::OpenOptions::new().create(true).write(true).truncate(false).open(&part).await?;
         file.set_len(offset).await?;
+        file.seek(std::io::SeekFrom::Start(offset)).await?;
         let mut received = offset;
         let mut buf = vec![0u8; CHUNK];
         let mut last_report = Instant::now() - PROGRESS_INTERVAL;

@@ -3,6 +3,11 @@
 [advisories]
 version = 2
 yanked = "deny"
+# Vulnerabilities fail the build wherever they are. "Unmaintained" notices
+# only fail for crates we depend on directly; transitive ones (currently
+# basic-toml via UniFFI's code generator and atomic-polyfill via postcard)
+# are for those projects to replace.
+unmaintained = "workspace"
 # Add RUSTSEC IDs here, each with a reason, only when an advisory doesn't
 # apply to how we use the crate.
 ignore = []
