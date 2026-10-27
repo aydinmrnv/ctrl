@@ -1,0 +1,8 @@
+[bindings.swift]
+module_name = "CtrlCore"
+ffi_module_name = "CtrlCoreFFI"
+ffi_module_filename = "CtrlCoreFFI"
+
+[bindings.csharp]
+namespace = "Ctrl.Core"
+cdylib_name = "ctrl_core"

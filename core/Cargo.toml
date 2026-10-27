@@ -1,0 +1,39 @@
+[package]
+name = "ctrl-core"
+description = "Discovery, pairing, encrypted transport, clip model, lazy payloads and history for Ctrl."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lib]
+name = "ctrl_core"
+crate-type = ["lib", "staticlib", "cdylib"]
+
+[dependencies]
+uniffi = { workspace = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "fs", "io-util", "sync", "time"] }
+tokio-util = "0.7"
+quinn = { version = "0.11", default-features = false, features = ["runtime-tokio", "rustls-ring"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
+rcgen = { version = "0.14", default-features = false, features = ["crypto", "ring"] }
+socket2 = "0.6"
+snow = "0.10"
+spake2 = "0.4"
+hkdf = "0.12"
+sha2 = "0.10"
+rand = "0.8"
+mdns-sd = "0.21"
+rusqlite = { version = "0.41", features = ["bundled"] }
+serde = { version = "1", features = ["derive"] }
+serde_bytes = "0.11"
+postcard = { version = "1", features = ["use-std"] }
+thiserror = "2"
+uuid = { version = "1", features = ["v4"] }
+hex = "0.4"
+tracing = "0.1"
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "io-util", "time"] }

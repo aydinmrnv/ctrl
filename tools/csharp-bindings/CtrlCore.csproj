@@ -1,0 +1,16 @@
+<!-- Compiles the generated C# bindings (bindings/cs) so CI catches a broken
+     generator or an unsupported type before the Windows shell does. -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Ctrl.Core</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <!-- Generated code; its warnings aren't ours to fix. -->
+    <NoWarn>$(NoWarn);CS1591;CS8618;CS8625;CS8603;CS8600;CS8604;CS0168</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../bindings/cs/*.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = ["core", "cli", "tools/uniffi-bindgen"]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+license = "UNLICENSED"
+rust-version = "1.85"
+
+[workspace.dependencies]
+uniffi = "=0.31.0"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
