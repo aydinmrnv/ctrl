@@ -51,6 +51,24 @@ jobs:
           name: CtrlCore-swift
           path: bindings/apple
 
+  macos-app:
+    name: macOS app (CtrlKit tests, Xcode build)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal && rustup default stable
+      - run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - run: scripts/build-xcframework.sh --macos-only
+      - run: brew install xcodegen
+      - name: CtrlKit tests
+        working-directory: apple/CtrlKit
+        run: swift test
+      - name: Build Ctrl.app
+        working-directory: apple
+        run: |
+          xcodegen generate
+          xcodebuild -project Ctrl.xcodeproj -scheme Ctrl -configuration Release -derivedDataPath build build
+
   csharp:
     name: C# bindings
     runs-on: windows-latest

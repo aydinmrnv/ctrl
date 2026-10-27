@@ -1,0 +1,64 @@
+# Generate Ctrl.xcodeproj with `xcodegen` from this directory. The project
+# needs the CtrlCore package from `scripts/build-xcframework.sh` first.
+name: Ctrl
+options:
+  bundleIdPrefix: app.ctrl
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEAD_CODE_STRIPPING: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+packages:
+  CtrlKit:
+    path: CtrlKit
+targets:
+  Ctrl:
+    type: application
+    platform: macOS
+    sources:
+      - path: Ctrl
+    dependencies:
+      - package: CtrlKit
+      - sdk: ServiceManagement.framework
+      - sdk: QuickLookThumbnailing.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.ctrl.Ctrl
+        PRODUCT_NAME: Ctrl
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_ENTITLEMENTS: Ctrl/Ctrl.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Ctrl/Info.plist
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
+    info:
+      path: Ctrl/Info.plist
+      properties:
+        CFBundleDisplayName: Ctrl
+        CFBundleName: Ctrl
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.productivity
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        LSUIElement: true
+        NSHumanReadableCopyright: ""
+        NSLocalNetworkUsageDescription: Ctrl finds your other devices on the local network and sends your clipboard to them directly.
+        NSBonjourServices:
+          - _ctrl._udp
+        NSAccessibilityUsageDescription: Ctrl pastes a clip into the frontmost app when you Option-click it.
+schemes:
+  Ctrl:
+    build:
+      targets:
+        Ctrl: all
+    run:
+      config: Debug
+    test:
+      config: Debug
