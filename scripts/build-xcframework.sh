@@ -13,6 +13,9 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 out=bindings/apple
+# Match the Swift package's platforms so the linker doesn't warn about objects
+# built for the host's newer OS.
+export MACOSX_DEPLOYMENT_TARGET=15.0 IPHONEOS_DEPLOYMENT_TARGET=18.0
 targets=(aarch64-apple-darwin x86_64-apple-darwin)
 if [[ "${1:-}" != "--macos-only" ]]; then
   targets+=(aarch64-apple-ios aarch64-apple-ios-sim)

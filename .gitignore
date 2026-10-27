@@ -2,3 +2,6 @@ target/
 /bindings/
 *.xcframework
 .DS_Store
+/apple/Ctrl.xcodeproj/
+/apple/build/
+.build/
